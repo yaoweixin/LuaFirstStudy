@@ -6,6 +6,7 @@ student = {id = 0,score = 0,preSen = 0,name = "YaoWeiXin"}
 
 function student:new(o,id,score,name)
     o = o or {}
+    --O是我们的一个对象，self则是我们的元表，我们把所有的属性都存在了元表里面
     setmetatable(o,self)
     self._index = self
     self.id = id or 0
