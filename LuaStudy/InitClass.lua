@@ -25,6 +25,8 @@ function student:new(o,id,score,name)
     return o
 end
 
+
+--self就是所谓的隐藏参数
 function student:GetPass()
     self.preSen = self.score / 100;
     if self.preSen >= 0.6 then
