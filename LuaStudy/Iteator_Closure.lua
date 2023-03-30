@@ -115,6 +115,37 @@ for key, value in pairs(t) do
 end
 
 ----------------------------------------------------------------
+--Frequently, an iterator needs to keep more state than fits into a single invariant state and a control variable. 
+--The simplest solution is to use closures. An alternative solution is to pack all it needs into a table and use this table as the invariant state for the iteration. 
+--Iterator with complex state
+local iterator   -- to be defined later
+    
+function allwords ()
+  local state = {line = io.read(), pos = 1}
+  return iterator, state
+end
 
+function iterator (state)
+    while state.line do        -- repeat while there are lines
+      -- search for next word
+      local s, e = string.find(state.line, "%w+", state.pos)
+      if s then                -- found a word?
+        -- update next position (after this word)
+        state.pos = e + 1
+        return string.sub(state.line, s, e)
+      else    -- word not found
+        state.line = io.read() -- try next line...
+        state.pos = 1          -- ... from first position
+      end
+    end
+    return nil                 -- no more lines: end loop
+  end
 
+for word in allwords() do
+    print(word)
+end
 
+--如果有特殊的需求需要使用迭代器，最好还是使用闭包，因为：
+--First, it is cheaper to create a closure than a table; second, access to upvalues is faster than access to table fields.
+
+---------------------------------------------------------------------------
