@@ -33,7 +33,7 @@ end
 function consumer(prod)
     while true do
         local x = receive(prod)
-        io.write(x,"\n")
+        io.write(x,"\n") --输出
     end
 end
 
