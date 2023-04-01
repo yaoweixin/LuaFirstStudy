@@ -55,4 +55,7 @@ end
 
 --------------------------------------------
 --让我们来实现一个队列
-
+List = {}
+function List.new ()
+  return {first = 0, last = -1}
+end
