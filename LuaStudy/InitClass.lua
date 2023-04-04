@@ -6,7 +6,7 @@ student = {id = 0,score = 0,preSen = 0,name = "YaoWeiXin"}
 
 function student:new(o,id,score,name)
     o = o or {}
-    --O是我们的一个对象，self则是我们的元表，我们把所有的属性都存在了元表里面
+    --O是我们的一个对象，self则是我们的元表(student对象)，我们把所有的属性都存在了元表里面
     setmetatable(o,self)
     --你好，下次index前面记得加两个下划线
     self.__index = self
@@ -40,7 +40,9 @@ student_A = student:new(nil,1,33,"LittleYao")
 --如果我们没有添加元表的话，那么就会指向空
 --print(getmetatable(student_A).id)
 --如果我们实例化我们的返回值o，并为其赋值
-print(student_A.name)
+--print(student_A.name)
 student_A:GetPass()
+
+return student_A
 
 
