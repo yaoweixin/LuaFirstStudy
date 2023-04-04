@@ -54,4 +54,25 @@ local stu = require("InitClass")
 stu.id = 10086
 print(student_A.id,stu.id)
 -----------------------------------------------------------------------
+--可以把我们的函数所处的文件地址放在我们的定位表中
+local location = {
+    foo = "/usr/local/lua/lib/pack1_1.lua",
+    goo = "/usr/local/lua/lib/pack1_1.lua",
+    foo1 = "/usr/local/lua/lib/pack1_2.lua",
+    goo1 = "/usr/local/lua/lib/pack1_3.lua",
+}
 
+-----设置元表，创建元方法，这样我们在文件中调用别的文件的函数就会自动执行对应文件并且返回对应函数
+-----可以在元表中定义一个方法来加载整个包
+pack1 = {}
+
+setmetatable(pack1, {__index = function (t, funcname)
+  local file = location[funcname]
+  if not file then
+    error("package pack1 does not define " .. funcname)
+  end
+  assert(loadfile(file))()     -- load and run definition
+  return t[funcname]           -- return the function
+end})
+
+return pack1
