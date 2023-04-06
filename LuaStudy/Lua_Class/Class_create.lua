@@ -37,7 +37,7 @@ function class(className, baseClass)
     end
 
     function cls.new(...)
-        local instance = setmetatable({}, cls)
+        local instance = setmetatable({}, cls) --这段代码暂时看不懂
         if instance.ctor then
             instance:ctor(...)
         end
