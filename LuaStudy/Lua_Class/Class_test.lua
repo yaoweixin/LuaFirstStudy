@@ -25,7 +25,7 @@ end
 
 
 
-
+--形状基类
 local Shape = class("Shape")
 
 function Shape:ctor()
@@ -35,6 +35,7 @@ function Shape:size()
     return 0
 end
 
+--矩形类，继承自形状类
 local Rect = class("Rect", Shape)
 
 function Rect:ctor(w,h)
@@ -47,6 +48,20 @@ function Rect:size()
     return self.w * self.h
 end
 
+--圆形类，继承自形状类
+local Circle = class("Circle",Shape)
+
+function Circle:ctor(r)
+    Shape.ctor(self)
+    self.r = r
+end
+
+function Circle:size()
+    return 3.14 * self.r ^ 2
+end
+
+
+--正方形类，继承于矩形类
 local Square = class("Square",Rect)
 
 function Square:ctor(s)
@@ -67,6 +82,7 @@ function Dog_Rect:ctor(weight,height,w)
     Dog.ctor(self,weight,height)
     Rect.ctor(self,w)
 end
+
 
 function test()
     --这三个都是单继承，其中square体现了继承
