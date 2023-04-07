@@ -1,3 +1,5 @@
+package.path = "C:\\Users\\Admin\\Desktop\\LuaFirstStudy\\LuaStudy\\Lua_Class\\?.lua"
+
 require("Class_create")
 
 local Shape = class("Shape")
@@ -35,3 +37,5 @@ function test()
     print(r:size())
     print(Squ:size())
 end
+
+test()
