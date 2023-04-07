@@ -1,44 +1,7 @@
---[[
-local Shape = class("Shape")
 
-function Shape:ctor()
-end
-
-function Shape:size()
-    return 0
-end
-
-local Rect = class("Rect", Shape)
-
-function Rect:ctor(w,h)
-    Shape.ctor(self)    
-    self.w = w
-    self.h = h
-end
-
-function Rect:size()
-    return self.w * self.h
-end
-
-local Square = class("Square",Rect)
-
-function Square:ctor(s)
-    Rect.ctor(self,s,s)
-end
-
-function test()
-    local s = Shape.new()
-    local r = Rect.new(5,8)
-    local Squ = Square.new(3)
-    print(s:size())
-    print(r:size())
-    print(Squ:size())
-end
-
-
-]]
 --这个是单继承
-function class(className, baseClass)
+--[[
+    function class(className, baseClass)
     --这里是实现了我们class中的面相对象，下面的new是用来返回对象
     local cls = {}
     --我们把我们的元表定义为我们自己
@@ -57,11 +20,57 @@ function class(className, baseClass)
         if instance.ctor then
             instance:ctor(...)
         end
+
         return instance
     end
 
     return cls
 end
+]]
+
+
+local function Search(InherClasses,key)
+    for i = 1,#InherClasses do
+        local value = InherClasses[i][key]
+        if value ~= nil then
+            return value
+        end
+    end 
+    return nil
+end
+
+
+
+
+function class(className,...)
+    local cls = {}
+    cls.__index = cls
+    cls.__name = className
+    local BaseClasses = {...}
+    if #BaseClasses ~= 0 and next(BaseClasses) ~= nil then
+        setmetatable(cls,{__index = function (_,key)
+            local v = Search(BaseClasses,key)
+            return v
+        end}) 
+    end
+
+    function cls.new(...)
+        local instance = setmetatable({},{__index = cls})
+
+        if instance.ctor then
+            instance:ctor(...)
+        end
+        return instance
+    end
+
+    return cls
+
+end
+
+--接下来要解决的是我们初始化参数的问题
+
+
+
 --[[
 上述代码中，class函数接受两个参数：className和baseClass。className表示创建的类的名称，baseClass表示该类的父类（可选）。
 
