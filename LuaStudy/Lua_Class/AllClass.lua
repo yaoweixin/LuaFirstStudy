@@ -1,7 +1,7 @@
 Shape = {area = 0}
 
 function Shape:new(o,side)
-    o = o or {}
+    o = o or {} 
     setmetatable(o,self);
     self.__index = self;
     --self.__newindex = self;
