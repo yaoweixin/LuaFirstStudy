@@ -20,24 +20,40 @@ function Rect:size()
     return self.w * self.h
 end
 
+local Square = class("Square",Rect)
+
+function Square:ctor(s)
+    Rect.ctor(self,s,s)
+end
+
 function test()
     local s = Shape.new()
     local r = Rect.new(5,8)
+    local Squ = Square.new(3)
     print(s:size())
     print(r:size())
+    print(Squ:size())
 end
+
+
 ]]
+--这个是单继承
 function class(className, baseClass)
+    --这里是实现了我们class中的面相对象，下面的new是用来返回对象
     local cls = {}
+    --我们把我们的元表定义为我们自己
     cls.__index = cls
     cls.__name = className
 
     if baseClass then
+        --如果有父类，就把元表定义为父类
         setmetatable(cls, { __index = baseClass })
     end
 
     function cls.new(...)
-        local instance = setmetatable({}, cls) --这段代码暂时看不懂
+        --setmetatable返回了我们设置元表的对象，在这里我们就是返回了一个空表，这个空表的元表格是我们的父类
+        local instance = setmetatable({}, {__index = cls}) 
+        
         if instance.ctor then
             instance:ctor(...)
         end
